@@ -1,0 +1,9 @@
+flowchart TD
+ A[Yahoo Finance ^GSPC] --> C[Python ingestion]
+ B[FRED VIXCLS] --> C
+ C --> D[Timestamped raw CSV snapshots]
+ D --> E[Schema and row validation]
+ E --> F[Validated datasets for Member 2]
+ E --> G[Quarantined records]
+ E --> H[Quality log]
+ C --> H

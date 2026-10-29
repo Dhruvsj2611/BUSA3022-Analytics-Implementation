@@ -1,0 +1,10 @@
+flowchart TD
+    A["Yahoo Finance: S&P 500"] --> C["Python ingestion"]
+    B["FRED: VIX"] --> C
+    C --> D["Raw CSV snapshots"]
+    D --> E["Schema and data-quality validation"]
+    E --> F["Validated CSV datasets"]
+    E --> G["Quarantined records"]
+    C --> H["Quality and execution logs"]
+    E --> H
+    F --> I["Member 2: Data curation and metrics"]

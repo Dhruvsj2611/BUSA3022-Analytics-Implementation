@@ -1,0 +1,3 @@
+source,series,records_compared,matching_values,different_values,dates_not_found,verification_method
+Yahoo Finance,S&P 500 (^GSPC),124,124,0,0,Repeat download comparison
+FRED,VIX (VIXCLS),127,127,0,0,Repeat download comparison
