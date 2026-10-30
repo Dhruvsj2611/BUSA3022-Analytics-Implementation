@@ -162,7 +162,7 @@ Both series use US observation dates. Dates should be aligned explicitly, withou
 
 Do not invent missing observations or assume every calendar date represents a trading day.
 
-Member 2 is responsible for defining and implementing two or three financial metrics, documenting transformations and preparing analysis-ready data for Member 3.
+Member 2 has added a reproducible data-curation proof of concept (three calculated metrics, date alignment and an audit log). See [Part 2 technical documentation](part2_data_curation/README.md).
 
 See `docs/handover_member2.md`.
 
@@ -206,3 +206,27 @@ Changes to shared data contracts should be discussed and recorded before downstr
 ## Academic Note
 
 This repository contains academic proof-of-concept work. Any generative-AI-produced text used in the assessed submission must be attributed in accordance with the revised assignment brief and the university's academic-integrity requirements.
+
+## 11. Part 2 — Data Curation (Added to the Group Repository)
+
+Part 2 now uses the **existing Part 1 validated CSVs**. It does not change the Part 1 pipeline or its raw/validated source files. See [`part2_data_curation/README.md`](part2_data_curation/README.md) for formulas, data definitions, date/time-zone decisions, limitations and traceable evidence.
+
+**Metrics:** 20-market-session S&P 500 simple moving average, one-session return (%), and annualised 14-return historical volatility (%). VIX (`VIXCLS`) is kept as a separately observed expected-volatility index, not mislabelled as a historical realised-volatility measure.
+
+**Re-run from this repository root:**
+
+```bash
+python -m pip install -r requirements.txt
+python -m unittest discover -s part2_data_curation/tests -v
+python part2_data_curation/curation.py \
+  --sp500 data/validated/market_validated.csv \
+  --vix data/validated/macro_validated.csv \
+  --out part2_data_curation/real_outputs
+```
+
+**Current saved-snapshot result (29 October 2026):** 124 S&P 500 sessions, 127 VIX records, 123 dates in common, 1 missing same-day VIX value (28 October), 4 additional VIX-only dates retained in the audit, and 0 newly quarantined source records. **Six Part 2 automated checks pass.** These results are derived from the repository's saved files, not a fresh download.
+
+**Handover for Part 3:** `part2_data_curation/real_outputs/curated_sp500_vix.csv`, with `vix_gap_flag` for unavailable macro values. Review `quality_log.csv`, `vix_only_dates.csv`, and the curated-data definitions before developing the dashboard.
+
+**Google Colab:** Open [`Part2_Data_Curation_Colab.ipynb`](part2_data_curation/Part2_Data_Curation_Colab.ipynb). The notebook supports running inside the repository or uploading a ZIP containing the complete merged repository and validated data files.
+
