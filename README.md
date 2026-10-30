@@ -216,7 +216,7 @@ Part 2 of the Really Big Bank market-intelligence proof of concept is implemente
 
 The three metric requirements were defined in plain language before serving as acceptance criteria for AI-assisted transformation logic.
 
-| Metric | Plain-language requirement | Business relevance | Calculation rule |
+| Metric | Definition | Business relevance | Calculation rule |
 |---|---|---|---|
 | **20-session moving average (SMA20)** | Average the S&P 500 close for the current session and previous 19 trading sessions. Leave the first 19 observations blank. | Shows the underlying direction of market prices for trend benchmarking. | Mean of 20 closing prices (`min_periods=20`). |
 | **Daily return (%)** | Express the change from the previous session's close as a percentage. Leave the first session blank. | Highlights the direction and magnitude of each market move. | `(close / previous_close − 1) × 100`. |
