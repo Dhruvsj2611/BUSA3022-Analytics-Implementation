@@ -28,7 +28,7 @@ The S&P 500 represents broad US equity-market performance. VIX provides a forwar
 
 Approximately 180 calendar days of source data are requested to support the final 90-day dashboard and rolling calculations.
 
-## 2. Pipeline Architecture
+## 1.1 Pipeline Architecture
 
 ![Data Pipeline Architecture](diagrams/pipeline_architecture.png)
 
@@ -43,7 +43,7 @@ The implemented pipeline follows these stages:
 
 Raw observations are kept separately from transformed data to support reproducibility and investigation.
 
-## 3. Proof-of-Concept Results
+## 1.2 Proof-of-Concept Results
 
 **Execution date:** 29 October 2026.
 
@@ -72,7 +72,7 @@ These are repeat-download consistency checks, not independent cross-provider ver
 
 See `docs/source_verification.csv`.
 
-## 4. Data Quality and Failure Handling
+## 1.3 Data Quality and Failure Handling
 
 The pipeline checks:
 
@@ -94,7 +94,7 @@ Relevant files:
 - `logs/data_quality_log.csv`
 - `docs/pipeline_design.md`
 
-## 5. How to Run the Proof of Concept
+## 1.4 How to Run the Proof of Concept
 
 ### Requirements
 
@@ -126,7 +126,7 @@ Alternatively, open `notebooks/01_data_pipeline.ipynb` in Google Colab, install 
 
 The notebook contains the demonstrated live execution and supporting checks.
 
-## 6. Project Files
+## 1.5 Project Files
 
 | Path | Purpose |
 |---|---|
@@ -143,7 +143,7 @@ The notebook contains the demonstrated live execution and supporting checks.
 | `docs/ai_verification_log.md` | AI-assisted coding issue and correction |
 | `docs/handover_member2.md` | Downstream handover instructions |
 
-## 7. Handover to Member 2
+## 1.6 Handover to Member 2
 
 The data-curation team should begin with:
 
@@ -166,7 +166,7 @@ Member 2 has added a reproducible data-curation proof of concept (three calculat
 
 See `docs/handover_member2.md`.
 
-## 8. AI Use and Verification
+## 1.7 AI Use and Verification
 
 ChatGPT assisted with code development, testing guidance and documentation.
 
@@ -180,7 +180,7 @@ AI-generated code requires human review, controlled tests, source checks and doc
 
 See `docs/ai_verification_log.md`.
 
-## 9. Proposed Operations and Limitations
+## 1.8 Proposed Operations and Limitations
 
 Daily GitHub Actions scheduling is proposed but has **not been deployed**.
 
@@ -190,7 +190,7 @@ Further production requirements would include automated monitoring, retries, ato
 
 Validated CSV files currently represent latest-run snapshots, not a managed production data warehouse.
 
-## 10. Group Collaboration
+## 1.9 Group Collaboration
 
 The four group members are responsible for:
 
@@ -208,7 +208,7 @@ Changes to shared data contracts should be discussed and recorded before downstr
 This repository contains academic proof-of-concept work. Any generative-AI-produced text used in the assessed submission must be attributed in accordance with the revised assignment brief and the university's academic-integrity requirements.
 
 
-## 11. Data Curation Plan
+## 2. Data Curation Plan
 
 Part 2 builds on the validated S&P 500 and VIX datasets from Part 1 to support market trend analysis and future benchmarking.
 
