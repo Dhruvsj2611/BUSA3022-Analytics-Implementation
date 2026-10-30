@@ -1,0 +1,4 @@
+source,source_row,raw_date,raw_value,market_session_date,value,rejection_reason
+SP500,72,2026-08-06,222.0,2026-08-06,222.0,duplicate_market_session_date
+SP500,73,2026-08-18,,2026-08-18,,missing_non_numeric_or_nonpositive_value;duplicate_market_session_date
+VIX,42,2026-09-18,.,2026-09-18,,missing_non_numeric_or_nonpositive_value
