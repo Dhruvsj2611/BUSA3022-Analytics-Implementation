@@ -207,26 +207,34 @@ Changes to shared data contracts should be discussed and recorded before downstr
 
 This repository contains academic proof-of-concept work. Any generative-AI-produced text used in the assessed submission must be attributed in accordance with the revised assignment brief and the university's academic-integrity requirements.
 
-## 11. Part 2 — Data Curation (Added to the Group Repository)
 
-Part 2 now uses the **existing Part 1 validated CSVs**. It does not change the Part 1 pipeline or its raw/validated source files. See [`part2_data_curation/README.md`](part2_data_curation/README.md) for formulas, data definitions, date/time-zone decisions, limitations and traceable evidence.
+## 11. Data Curation Plan
 
-**Metrics:** 20-market-session S&P 500 simple moving average, one-session return (%), and annualised 14-return historical volatility (%). VIX (`VIXCLS`) is kept as a separately observed expected-volatility index, not mislabelled as a historical realised-volatility measure.
+Part 2 builds on the validated S&P 500 and VIX datasets from Part 1 to support market trend analysis and future benchmarking.
 
-**Re-run from this repository root:**
+### 2.1 Calculated Metrics and Business Relevance
 
-```bash
-python -m pip install -r requirements.txt
-python -m unittest discover -s part2_data_curation/tests -v
-python part2_data_curation/curation.py \
-  --sp500 data/validated/market_validated.csv \
-  --vix data/validated/macro_validated.csv \
-  --out part2_data_curation/real_outputs
-```
+Three metrics are used:
 
-**Current saved-snapshot result (29 October 2026):** 124 S&P 500 sessions, 127 VIX records, 123 dates in common, 1 missing same-day VIX value (28 October), 4 additional VIX-only dates retained in the audit, and 0 newly quarantined source records. **Six Part 2 automated checks pass.** These results are derived from the repository's saved files, not a fresh download.
+- **20-Session Moving Average:** The average S&P 500 closing price across the latest 20 trading sessions, used to identify underlying market trends.
+- **Daily Return (%):** The percentage change in the S&P 500 closing price from the previous trading session, used to assess market direction and daily performance.
+- **14-Return Annualised Volatility (%):** The variability of the latest 14 daily returns, annualised to assess changes in market risk.
 
-**Handover for Part 3:** `part2_data_curation/real_outputs/curated_sp500_vix.csv`, with `vix_gap_flag` for unavailable macro values. Review `quality_log.csv`, `vix_only_dates.csv`, and the curated-data definitions before developing the dashboard.
+### 2.2 Data Alignment and Time Zone Handling
 
-**Google Colab:** Open [`Part2_Data_Curation_Colab.ipynb`](part2_data_curation/Part2_Data_Curation_Colab.ipynb). The notebook supports running inside the repository or uploading a ZIP containing the complete merged repository and validated data files.
+S&P 500 and VIX observations are aligned using their US market-session dates. Source dates are standardised before joining, while UTC timestamps are retained for processing and audit logs. The S&P 500 trading calendar defines the final dataset.
+
+### 2.3 Data Quality Issue and Resolution
+
+The validated datasets contain 124 S&P 500 observations and 127 VIX observations, with 123 matching dates. The VIX observation for 28 October 2026 is unavailable. This missing value is flagged rather than silently replaced, while four VIX-only dates are retained in a separate audit file.
+
+### 2.4 Working Proof of Concept
+
+The Python implementation calculates the proposed metrics, aligns the source datasets, and records data-quality outcomes. Six automated tests passed, supporting the correctness of the implemented calculation and validation logic.
+
+The implementation, notebook, tests, and saved outputs are available in [Part 2 Data Curation](part2_data_curation/README.md).
+
+### 2.5 AI Agent Lens
+
+Metric requirements are specified in plain language before AI-assisted transformation logic is developed. These definitions establish the calculation windows, expected outputs, and handling of insufficient observations, providing clear criteria for checking the generated code.
 
