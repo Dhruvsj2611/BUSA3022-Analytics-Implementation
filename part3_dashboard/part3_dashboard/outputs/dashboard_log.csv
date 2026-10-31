@@ -1,5 +1,0 @@
-utc_timestamp,run_id,level,event,rows
-2026-10-31T03:26:11.444810+00:00,ea9f387c,INFO,Loaded curated file curated_sp500_vix.csv,124.0
-2026-10-31T03:26:11.448567+00:00,ea9f387c,INFO,Prepared last 90 sessions,90.0
-2026-10-31T03:26:11.448778+00:00,ea9f387c,WARN,"1 session(s) without same-day VIX - shown as gaps, signal uses last available reading",
-2026-10-31T03:26:11.692298+00:00,ea9f387c,INFO,"Dashboard written; latest signal Green (VIX 17.52, corr -0.88)",90.0
