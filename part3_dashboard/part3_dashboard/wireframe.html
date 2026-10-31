@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><style>
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#fff;color:#1f2937}
+.wrap{display:flex;gap:22px;padding:24px;width:1010px;box-sizing:border-box}
+.dash{width:960px;border:2px solid #374151;border-radius:6px;padding:16px;box-sizing:border-box;background:#fcfcfc}
+.notes{width:470px;font-size:14px;line-height:1.4}
+h1{font-size:20px;margin:0 0 2px}
+.sub{font-size:12px;color:#6b7280;margin-bottom:12px}
+.box{border:1.5px dashed #6b7280;border-radius:4px;padding:10px;margin-bottom:12px;position:relative;background:#fff}
+.tag{position:absolute;top:-12px;left:-12px;width:26px;height:26px;border-radius:50%;background:#1f3b73;color:#fff;font-weight:bold;display:flex;align-items:center;justify-content:center;font-size:14px}
+.hdr{display:flex;gap:10px;align-items:stretch}
+.rag{width:150px;border:2px solid #f59e0b;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:bold}
+.dot{width:38px;height:38px;border-radius:50%;background:#f59e0b;margin-bottom:6px}
+.story{flex:1;font-size:13px;color:#374151}
+.story b{color:#111}
+.kpis{display:flex;gap:8px;margin-top:8px}
+.kpi{flex:1;border:1px solid #d1d5db;border-radius:4px;padding:6px;font-size:11px;color:#6b7280}
+.kpi span{display:block;font-size:16px;color:#111;font-weight:bold}
+.ttl{font-size:13px;font-weight:bold;margin-bottom:4px}
+svg text{font-family:Arial;font-size:11px;fill:#6b7280}
+.n{display:flex;gap:10px;margin-bottom:14px}
+.n .tag{position:static;flex:0 0 26px}
+.n p{margin:0}
+.legend{font-size:11px;color:#6b7280}
+.foot{font-size:11px;color:#6b7280;border-top:1px solid #e5e7eb;padding-top:6px}
+.title{font-size:16px;font-weight:bold;margin:0 0 10px}
+</style></head><body><div class="wrap">
+<div class="dash">
+ <h1>Market Activity – last 90 trading sessions</h1>
+ <div class="sub">Really Big Bank · Post-trade Market Intelligence · Data to [latest session] · Sources: Yahoo Finance (^GSPC), FRED (VIXCLS)</div>
+
+ <div class="box"><div class="tag">1</div>
+  <div class="hdr">
+   <div class="rag"><div class="dot"></div>AMBER<div style="font-size:10px;font-weight:normal;color:#6b7280">Watch</div></div>
+   <div class="story"><b>Is there anything we should be watching?</b><br>
+   One auto-generated sentence: “The S&amp;P 500 is <b>[up/down x%]</b> over 90 sessions and sits <b>[above/below]</b> its 20-session average. VIX is <b>[x]</b> ([status]); shares and volatility are <b>[moving opposite as usual / not]</b>.”
+    <div class="kpis">
+     <div class="kpi">S&amp;P 500 close<span>[x,xxx]</span></div>
+     <div class="kpi">90-session change<span>[±x.x%]</span></div>
+     <div class="kpi">VIX (as at [date])<span>[xx.x]</span></div>
+     <div class="kpi">S&amp;P/VIX correlation<span>[−0.xx]</span></div>
+    </div></div>
+  </div></div>
+
+ <div class="box"><div class="tag">2</div>
+  <div class="ttl">Trend – S&amp;P 500 close vs 20-session average</div>
+  <svg width="920" height="170">
+   <line x1="40" y1="150" x2="910" y2="150" stroke="#9ca3af"/><line x1="40" y1="10" x2="40" y2="150" stroke="#9ca3af"/>
+   <polyline fill="none" stroke="#1f3b73" stroke-width="2.5" points="40,110 80,95 120,105 160,80 200,88 240,70 280,92 320,115 360,120 400,100 440,85 480,90 520,72 560,60 600,68 640,50 680,58 720,42 760,55 800,48 840,70 880,62 905,66"/>
+   <polyline fill="none" stroke="#f28e2b" stroke-width="2.5" stroke-dasharray="7,5" points="40,105 120,100 200,92 280,90 360,102 440,98 520,86 600,72 680,62 760,54 840,56 905,60"/>
+   <text x="5" y="15">Index</text><text x="45" y="165">[90 sessions ago]</text><text x="840" y="165">[latest]</text>
+   <text x="720" y="25" style="fill:#1f3b73">— Close</text><text x="790" y="25" style="fill:#f28e2b">- - 20-session avg</text>
+  </svg></div>
+
+ <div class="box"><div class="tag">3</div>
+  <div class="ttl">Macro overlay – S&amp;P 500 (left axis) vs VIX “fear gauge” (right axis)</div>
+  <svg width="920" height="150">
+   <rect x="560" y="10" width="90" height="120" fill="#fde68a" opacity="0.6"/>
+   <text x="565" y="24" style="fill:#92400e">divergence</text>
+   <line x1="40" y1="130" x2="880" y2="130" stroke="#9ca3af"/><line x1="40" y1="10" x2="40" y2="130" stroke="#9ca3af"/><line x1="880" y1="10" x2="880" y2="130" stroke="#9ca3af"/>
+   <polyline fill="none" stroke="#1f3b73" stroke-width="2" points="40,95 120,88 200,75 280,90 360,105 440,80 520,62 560,55 600,48 650,52 720,40 800,45 875,50"/>
+   <polyline fill="none" stroke="#7b3294" stroke-width="2" points="40,90 120,95 200,105 280,92 360,70 440,95 520,108 560,92 600,80 650,78 720,105 800,100 860,96"/>
+   <circle cx="875" cy="96" r="4" fill="none" stroke="#7b3294"/><text x="800" y="122">gap = no VIX</text>
+   <text x="5" y="15">S&amp;P</text><text x="885" y="15">VIX</text>
+  </svg></div>
+
+ <div class="box"><div class="tag">4</div>
+  <div class="ttl">Signal history – VIX against Red / Amber / Green bands</div>
+  <svg width="920" height="110">
+   <rect x="40" y="5" width="840" height="25" fill="#d73027" opacity="0.15"/>
+   <rect x="40" y="30" width="840" height="30" fill="#f59e0b" opacity="0.18"/>
+   <rect x="40" y="60" width="840" height="40" fill="#1a9850" opacity="0.15"/>
+   <text x="45" y="26">Red ≥ 30</text><text x="45" y="55">Amber 20–30</text><text x="45" y="95">Green &lt; 20</text>
+   <polyline fill="none" stroke="#111" stroke-width="2" points="40,80 120,82 200,88 280,78 360,50 440,72 520,85 600,70 650,60 720,52 800,48 860,45"/>
+  </svg></div>
+ <div class="foot">Hover shows exact values · Interactive build: part3_dashboard/outputs/dashboard.html · Signal rule and thresholds documented in README</div>
+</div>
+
+
+</div></body></html>
