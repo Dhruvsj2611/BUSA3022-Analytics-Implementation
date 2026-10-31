@@ -284,7 +284,8 @@ The team should retain a common data dictionary with field names, units, session
 
 This folder contains Part 3 of the Really Big Bank market-intelligence proof of concept. It turns the **curated** S&P 500 (`^GSPC`) and CBOE VIX (`VIXCLS`) dataset from Part 2 into a single dashboard view, without changing the Part 2 files. The dashboard answers the business question: **How has market activity trended over the past 90 days, and is there anything we should be watching?**
 
-![Working dashboard](outputs/dashboard_screenshot.png)
+![Working dashboard]<img width="2440" height="1936" alt="dashboard_screenshot" src="https://github.com/user-attachments/assets/e176aef3-ba9c-4f9c-b76e-3981bb73e541" />
+
 
 ### 3.1 Audience and Design Approach
 
