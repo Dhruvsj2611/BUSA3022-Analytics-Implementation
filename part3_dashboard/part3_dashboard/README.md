@@ -123,12 +123,3 @@ Claude (Anthropic, 2026) assisted with the dashboard code. AI-assisted code was 
 
 To help analysts present a clear message, the team should use a shared template: **state the question, give the answer first, use one chart per point and label anything unusual**. Before release, a non-technical colleague should be able to repeat the main message in one sentence. Changes to thresholds or AI-assisted code require peer review and rerunning the tests. This is a limited proof of concept, not a production trading or banking decision engine.
 
-### References
-
-Anthropic. (2026). *Claude* (Opus 5.5 version) [Large language model]. https://claude.ai
-
-Cohen, J. (1988). *Statistical power analysis for the behavioral sciences* (2nd ed.). Lawrence Erlbaum Associates.
-
-Hartford Funds. (2026). *10 things you should know about stock market volatility* [White paper]. https://www.hartfordfunds.com/dam/en/docs/pub/whitepapers/CCWP051.pdf
-
-MacroTrends. (n.d.). *VIX volatility index - historical chart*. Retrieved November 1, 2026, from https://www.macrotrends.net/2603/vix-volatility-index-historical-chart
