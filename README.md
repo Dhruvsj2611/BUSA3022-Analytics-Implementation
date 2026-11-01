@@ -208,61 +208,144 @@ Changes to shared data contracts should be discussed and recorded before downstr
 This repository contains academic proof-of-concept work. Any generative-AI-produced text used in the assessed submission must be attributed in accordance with the revised assignment brief and the university's academic-integrity requirements.
 
 
-## 2. Data Curation Plan
+# Part 2: Data Curation Plan
 
-The Data Curation Plan transforms the validated S&P 500 (^GSPC) and CBOE VIX (VIXCLS) observations from Part 1 into consistent metrics for Really Big Bank's market-monitoring and future benchmarking objectives (Chicago Board Options Exchange [CBOE], n.d.; Yahoo Finance, n.d.). Original datasets remain unchanged, while a separate curated output supports the 90-day dashboard.
+This section documents the transformation of validated S&P 500 (^GSPC) and CBOE VIX (VIXCLS) observations from Part 1 into a curated dataset for Really Big Bank's 90-day market-monitoring dashboard.
 
-### 2.1 Calculated Metrics and Business Relevance
+The implementation uses Python and pandas to align both sources, calculate three market indicators, validate results, and retain data-quality evidence. Original datasets are preserved separately to maintain traceability.
+
+## 1. Calculated Metrics
 
 Three metrics were defined in plain language before AI-assisted transformation code was developed.
 
-**1. 20-Session Simple Moving Average (SMA20):** The average S&P 500 closing price across the current and previous 19 trading sessions. It smooths short-term fluctuations and helps management identify underlying market trends.
+### 1.1 20-Session Simple Moving Average (SMA20)
 
-SMA20(t) = [P(t) + P(t-1) + ... + P(t-19)] / 20
+The average S&P 500 closing price over the current and previous 19 trading sessions.
 
-**2. Daily Percentage Return:** The percentage change in the S&P 500 closing price compared with the previous trading session. It measures daily market performance on a consistent scale, supporting future comparisons with bank performance.
+**Formula:**
 
-R(t) = [P(t) / P(t-1) - 1] x 100
+`SMA20(t) = [P(t) + P(t-1) + ... + P(t-19)] / 20`
 
-**3. 14-Return Annualised Volatility:** The sample standard deviation of the latest 14 daily decimal returns, annualised using the square root of 252 assumed trading sessions and converted to a percentage.
+**Business purpose:** Smooths short-term price fluctuations to identify underlying market trends.
 
-Vol14(t) = sample_SD[r(t-13), ..., r(t)] x sqrt(252) x 100
+**Missing-value rule:** The first 19 observations remain blank because 20 closing prices are required.
 
-Here, \(P_t\) represents the S&P 500 closing price, while \(r_t\) represents its daily return expressed as a decimal. The volatility calculation uses the sample standard deviation (`ddof=1`) (pandas development team, n.d.-a).
+### 1.2 Daily Percentage Return
 
-This metric measures recent market variability. Comparing realised volatility with VIX, a forward-looking measure of expected market volatility, helps management identify differences between observed market movements and expectations (CBOE, n.d.).
+The percentage change in the S&P 500 closing price compared with the previous trading session.
 
-### 2.2 Data Alignment and Time Zone Management
+**Formula:**
 
-The S&P 500 trading calendar defines the common time axis. A same-day left join preserves all 124 S&P 500 observations while matching available VIX values by their US market-session dates.
+`R(t) = [P(t) / P(t-1) - 1] × 100`
 
-The reconciliation identified **123 matching dates, one S&P 500 date without a corresponding VIX observation, and four VIX-only dates**. The unmatched VIX value remains blank and flagged, while VIX-only observations are retained separately for auditing rather than silently discarded.
+**Business purpose:** Measures daily market performance and supports future comparisons with bank performance.
 
-Both sources use US market observation dates under the *America/New_York* convention. Date-only values are treated as session labels rather than UTC timestamps, preventing unintended date shifts. Any future timestamped inputs will require daylight-saving-aware conversion. The analysis assumes observation dates represent reporting sessions rather than verified publication times.
+**Missing-value rule:** The first observation remains blank because no previous closing price is available.
 
-### 2.3 Data Quality and Missing-Value Treatment
+### 1.3 14-Return Annualised Volatility
 
-A data-quality concern identified in Part 1 was the difference in source freshness: S&P 500 observations extended to 28 October 2026, while VIX observations ended on 27 October 2026. The unmatched VIX observation remains blank instead of being replaced with zero or an earlier value.
+The sample standard deviation of the latest 14 daily returns expressed as decimals, annualised using 252 assumed trading sessions.
 
-Expected calculation gaps are distinguished from genuine data-quality issues. SMA20 leaves its first 19 observations blank, daily return leaves its first observation blank, and 14-return volatility leaves its first 14 observations blank because the required historical observations are not yet available. These are expected calculation warm-up periods rather than data-quality failures.
+**Formula:**
 
-In contrast, missing required source values, duplicate dates and invalid numeric values are identified through validation checks. Rejected records and their corresponding reasons are retained in the structured quality log, ensuring that data-quality issues remain traceable. This approach is consistent with explicit missing-value handling in pandas (pandas development team, n.d.-b).
+`Vol14(t) = sample_SD[r(t-13), ..., r(t)] × sqrt(252) × 100`
 
-### 2.4 Proof of Concept and Calculation Verification
+The implementation uses sample standard deviation (`ddof=1`).
 
-The working Python proof of concept processes the validated datasets from Part 1, producing 124 curated market observations. Its calculations were independently checked against the source closing prices.
+**Business purpose:** Measures observed market variability and supports comparison with VIX, which represents expected near-term volatility.
 
-On 28 October 2026, the S&P 500 closing price was **7,743.9800**, with a daily return of **0.2768%**, SMA20 of **7,734.3391**, and 14-return annualised volatility of **10.8835%**.
+**Missing-value rule:** The first 14 observations remain blank because 14 daily returns are required.
 
-Six automated tests passed, covering date handling, invalid-record quarantine, failure logging, metric calculations, missing VIX treatment and preservation of VIX-only audit dates.
+## 2. Date Alignment and Integration
 
-The transformation script (`part2_data_curation/curation.py`), six automated tests (`part2_data_curation/tests/test_curation.py`), curated dataset (`part2_data_curation/real_outputs/curated_sp500_vix.csv`) and supporting audit files are available in the shared GitHub repository. These outputs provide reproducible calculation evidence and an analysis-ready dataset for the Part 3 dashboard and recorded presentation.
+The S&P 500 trading calendar defines the common reporting axis. A same-day left join preserves all market-index observations and matches VIX observations using their US market-session dates.
 
-### 2.5 AI-Assisted Development and Data Modelling Standards
+### Verified Reconciliation
 
-Before using AI to assist with transformation logic, the metric specifications defined each required input, look-back period, unit, business purpose and rule for incomplete calculation windows. These plain-language definitions in Section 2.1 provided criteria for reviewing AI-generated code rather than accepting it simply because it executed successfully. Numerical spot checks and six automated tests were used to verify calculation accuracy and date-alignment logic.
+| Alignment outcome | Records |
+|---|---:|
+| S&P 500 source observations | 124 |
+| VIX source observations | 127 |
+| Matching dates | 123 |
+| S&P 500 dates without VIX | 1 |
+| VIX-only dates | 4 |
+| Final curated market observations | 124 |
 
-To maintain consistency, the team should document metric formulas, field names, date conventions and missing-data rules in a shared data dictionary. Analysts should follow these standards, review quality logs and rerun automated tests before approving changes. AI-assisted revisions must undergo the same verification process as manually developed code before dashboard use.
+The unmatched VIX value remains blank and flagged. The four VIX-only observations are retained in a separate audit file and are not added to the curated S&P 500 dataset.
+
+Both sources use US market observation dates under the `America/New_York` convention. Date-only values are treated as market-session labels, not UTC timestamps. Future timestamped inputs would require daylight-saving-aware conversion.
+
+The current retrospective implementation does not establish exact source-publication times.
+
+## 3. Data Quality and Missing Values
+
+During the group's initial extraction on 29 October 2026, S&P 500 observations extended to 28 October 2026, whereas retrieved VIX observations extended to 27 October 2026.
+
+The unmatched VIX observation remains missing rather than being filled with zero or an older value.
+
+The implementation distinguishes:
+
+- **Calculation warm-up periods:** Expected blank values caused by insufficient historical observations.
+- **Source-data quality issues:** Invalid values, duplicate dates, missing required fields, or unmatched source observations requiring investigation.
+
+Quality outcomes are retained through structured logs, quarantined-record outputs, and VIX-only-date audit records.
+
+## 4. Proof of Concept and Verification
+
+The Python implementation processes the validated Part 1 datasets and produces 124 curated market observations.
+
+### Verified Calculation Example
+
+**Reporting date:** 28 October 2026
+
+| Metric | Result |
+|---|---:|
+| S&P 500 closing price | 7,743.9800 |
+| Daily percentage return | +0.2768% |
+| SMA20 | 7,734.3391 |
+| 14-return annualised volatility | 10.8835% |
+| VIX observation | Missing |
+
+The calculations were checked against source closing prices.
+
+### Automated Verification
+
+Six automated tests passed, covering:
+
+1. Date handling and alignment.
+2. Invalid-record quarantine.
+3. Failure and quality logging.
+4. Metric calculation accuracy.
+5. Missing VIX treatment.
+6. Preservation of VIX-only audit records.
+
+These tests provide evidence that the implemented transformation behaves as intended under the tested conditions.
+
+## 5. Repository Files
+
+All files are located in the `part2_data_curation/` directory.
+
+| File | Purpose |
+|---|---|
+| `curation.py` | Working Python transformation script |
+| `Part2_Data_Curation_Colab.ipynb` | Google Colab implementation |
+| `tests/test_curation.py` | Six automated tests |
+| `real_outputs/curated_sp500_vix.csv` | Final curated dataset |
+| `real_outputs/quality_log.csv` | Structured data-quality log |
+| `real_outputs/quarantined_records.csv` | Rejected-record audit |
+| `real_outputs/vix_only_dates.csv` | Four unmatched VIX dates |
+
+These files support reproducibility and technical review.
+
+## 6. AI Agent Lens and Leadership
+
+Metric requirements were defined before AI-assisted coding, including required inputs, calculation windows, units, business purposes, and missing-value rules.
+
+AI-generated transformation logic was reviewed through numerical spot checks and six automated tests rather than accepted solely because it executed successfully.
+
+For future maintenance, the team should maintain consistent field names, metric definitions, date conventions, and missing-data rules in a shared data dictionary.
+
+All code modifications, including AI-assisted revisions, should undergo human review and automated testing before being used in dashboard reporting.
 
 [README.md](https://github.com/user-attachments/files/34219383/README.md)
 # Really Big Bank — BUSA3022 Analytics Implementation Plan & Portfolio
