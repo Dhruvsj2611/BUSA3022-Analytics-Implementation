@@ -1,7 +1,5 @@
 # Really Big Bank — BUSA3022 Analytics Implementation Plan & Portfolio
 
-## 2. Data Curation Plan
-
 # Part 2: Data Curation Plan
 
 This section documents the transformation of validated S&P 500 (^GSPC) and CBOE VIX (VIXCLS) observations from Part 1 into a curated dataset for Really Big Bank's 90-day market-monitoring dashboard.
