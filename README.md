@@ -214,11 +214,11 @@ This section documents the transformation of validated S&P 500 (^GSPC) and CBOE 
 
 The implementation uses Python and pandas to align both sources, calculate three market indicators, validate results, and retain data-quality evidence. Original datasets are preserved separately to maintain traceability.
 
-## 1. Calculated Metrics
+## 2. Calculated Metrics
 
 Three metrics were defined in plain language before AI-assisted transformation code was developed.
 
-### 1.1 20-Session Simple Moving Average (SMA20)
+### 1. 20-Session Simple Moving Average (SMA20)
 
 The average S&P 500 closing price over the current and previous 19 trading sessions.
 
@@ -230,7 +230,7 @@ The average S&P 500 closing price over the current and previous 19 trading sessi
 
 **Missing-value rule:** The first 19 observations remain blank because 20 closing prices are required.
 
-### 1.2 Daily Percentage Return
+### 2. Daily Percentage Return
 
 The percentage change in the S&P 500 closing price compared with the previous trading session.
 
@@ -242,7 +242,7 @@ The percentage change in the S&P 500 closing price compared with the previous tr
 
 **Missing-value rule:** The first observation remains blank because no previous closing price is available.
 
-### 1.3 14-Return Annualised Volatility
+### 3. 14-Return Annualised Volatility
 
 The sample standard deviation of the latest 14 daily returns expressed as decimals, annualised using 252 assumed trading sessions.
 
@@ -256,7 +256,7 @@ The implementation uses sample standard deviation (`ddof=1`).
 
 **Missing-value rule:** The first 14 observations remain blank because 14 daily returns are required.
 
-## 2. Date Alignment and Integration
+## 2.1 Date Alignment and Integration
 
 The S&P 500 trading calendar defines the common reporting axis. A same-day left join preserves all market-index observations and matches VIX observations using their US market-session dates.
 
@@ -277,7 +277,7 @@ Both sources use US market observation dates under the `America/New_York` conven
 
 The current retrospective implementation does not establish exact source-publication times.
 
-## 3. Data Quality and Missing Values
+## 2.2 Data Quality and Missing Values
 
 During the group's initial extraction on 29 October 2026, S&P 500 observations extended to 28 October 2026, whereas retrieved VIX observations extended to 27 October 2026.
 
@@ -290,7 +290,7 @@ The implementation distinguishes:
 
 Quality outcomes are retained through structured logs, quarantined-record outputs, and VIX-only-date audit records.
 
-## 4. Proof of Concept and Verification
+## 2.3 Proof of Concept and Verification
 
 The Python implementation processes the validated Part 1 datasets and produces 124 curated market observations.
 
@@ -321,7 +321,7 @@ Six automated tests passed, covering:
 
 These tests provide evidence that the implemented transformation behaves as intended under the tested conditions.
 
-## 5. Repository Files
+## 2.4 Repository Files
 
 All files are located in the `part2_data_curation/` directory.
 
@@ -337,7 +337,7 @@ All files are located in the `part2_data_curation/` directory.
 
 These files support reproducibility and technical review.
 
-## 6. AI Agent Lens and Leadership
+## 2.5 AI Agent Lens and Leadership
 
 Metric requirements were defined before AI-assisted coding, including required inputs, calculation windows, units, business purposes, and missing-value rules.
 
